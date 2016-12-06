@@ -75,6 +75,26 @@ map<Point2D,int> coor_occurrences(const vector<Town>& towns, bool DoPrint){
     return(coor_occurrences);
 }
 
+void build_N(set<Town, Name_comparison>& N, const vector<Town>& town,
+             map<string, int> names_occ){
+    string town_name;
+    for(auto town_it = town.begin(); town_it != town.end(); town_it++){
+        town_name = town_it->name();
+        if(names_occ[town_name] >= 1)
+            N.insert(*town_it);
+    }
+}
+
+void build_C(set<Town, Coor_comparison>& C, const vector<Town>& town,
+             map<Point2D, int> coor_occ){
+    Point2D town_coor;
+    for(auto town_it = town.begin(); town_it != town.end(); town_it++){
+        town_coor = town_it->point();
+        if(coor_occ[town_coor] >= 1)
+            C.insert(*town_it);
+    }
+}
+
 
 
 
@@ -114,20 +134,23 @@ int main()
 
 
 
-    // Question 1
+    // ---Question 1
     cout<<"Question 1"<<endl;
     map<string, int> names_occ = name_occurrences(towns, true);
-    //Question 2
+    // ---Question 2
     cout<<"Question 2"<<endl;
     map<Point2D, int> coor_occ = coor_occurrences(towns, true);
 
-    // Question 3
+    // ---Question 3
     cout<<"Question 3"<<endl;
     // Construction de N
     set<Town, Name_comparison> N;
-
+    build_N(N, towns, names_occ);
     // Construction de C
     set<Town, Coor_comparison> C;
+    build_C(C, towns, coor_occ);
+    //Intersection
+
     //Question 4
 
     return 0;

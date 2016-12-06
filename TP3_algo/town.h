@@ -87,13 +87,13 @@ public:
 };
 
 
-class Name_comparison{
+struct Name_comparison{
     bool operator()(const Town& town1, const Town& town2) const{
         return (town1.name() < town2.name());
     }
 };
 
-class Coor_comparison{
+struct Coor_comparison{
     bool operator()(const Town& town1, const Town& town2) const{
         return (town1.lat()<town2.lat() || (town1.lat() == town2.lat() && town1.lon()<town2.lon()));
     }
