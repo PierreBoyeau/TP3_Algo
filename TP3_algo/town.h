@@ -104,9 +104,6 @@ struct Coor_comparison{
 };
 
 
-//        return (_lat<town._lat || (_lat == town.lat() && _lon<town._lon));
-
-
 //
 // Display town: name[lat,lon](x,y)
 //

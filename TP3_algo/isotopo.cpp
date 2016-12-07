@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <list>
 #include <time.h>
 #include <stdlib.h>
 
@@ -155,6 +156,31 @@ int main()
     set_intersection(N.begin(), N.end(), C.begin(), C.end(), inserter(intersection, intersection.begin()));
     cout<<"intersection N^C size : "<<intersection.size()<<endl;
     //Question 4
+    int count = 0;
+    list<Town> homonyms, toponyms;
+    for(auto town_inter = intersection.begin(); town_inter != intersection.end(); town_inter++){
+        for(auto possible_homonym = intersection.begin(); possible_homonym != intersection.end(); possible_homonym++){
+            if(town_inter != possible_homonym){// Pointers comparison
+                if(town_inter->name() == possible_homonym->name())
+                    homonyms.push_back(*possible_homonym);
+            }
+        }
+        for(auto possible_toponym = intersection.begin(); possible_toponym != intersection.end(); possible_toponym++){
+            if(town_inter != possible_toponym){// Pointers comparison
+                if(town_inter->point().x()==possible_toponym->point().x() && town_inter->point().y()==possible_toponym->point().y())
+                    toponyms.push_back(*possible_toponym);
+            }
+        }
 
+        for(auto homonym = homonyms.begin(); homonym != homonyms.end(); homonym++){
+            for(auto toponym = toponyms.begin(); toponym != toponyms.end(); toponym++){
+                Town candidate = Town(toponym->name(), homonym->lat(), homonym->lon());
+                bool is_in = intersection.find(candidate) != intersection.end();
+                if(is_in)
+                    count++;
+            }
+        }
+    }
+    cout<<count<<endl;
     return 0;
 }
