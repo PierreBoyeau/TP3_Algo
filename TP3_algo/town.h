@@ -26,6 +26,10 @@ using std::ostream;
 // There are other parameters of the Lambert conformal conic projection
 // for other areas in the world.
 //
+
+
+
+
 class Town
 {
 protected:
@@ -37,13 +41,14 @@ protected:
     float _x, _y;
 public:
 
-//    bool name_comparison(const Town& town) const{
-//        return (_name < town._name);
-//    }
-
-//    bool coor_comparison(const Town& town) const{
-//        return (_lat<town._lat || (_lat == town.lat() && _lon<town._lon));
-//    }
+    bool operator<(const Town& town) const{
+        if(_name < town._name)
+            return(true);
+        else if(_name == town._name)
+            return(_lat<town._lat || (_lat == town._lat && _lon<town._lon));
+        else
+            return(false);
+    }
 
 
     // Construct a new town given its name, latitude and longitude
@@ -86,7 +91,6 @@ public:
     towns_with_lat_lon(const vector<Town> towns, float lat, float lon);
 };
 
-
 struct Name_comparison{
     bool operator()(const Town& town1, const Town& town2) const{
         return (town1.name() < town2.name());
@@ -98,6 +102,7 @@ struct Coor_comparison{
         return (town1.lat()<town2.lat() || (town1.lat() == town2.lat() && town1.lon()<town2.lon()));
     }
 };
+
 
 //        return (_lat<town._lat || (_lat == town.lat() && _lon<town._lon));
 

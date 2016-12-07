@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <map>
 #include <vector>
@@ -75,27 +76,25 @@ map<Point2D,int> coor_occurrences(const vector<Town>& towns, bool DoPrint){
     return(coor_occurrences);
 }
 
-void build_N(set<Town, Name_comparison>& N, const vector<Town>& town,
+void build_N(set<Town>& N, const vector<Town>& town,
              map<string, int> names_occ){
     string town_name;
     for(auto town_it = town.begin(); town_it != town.end(); town_it++){
         town_name = town_it->name();
-        if(names_occ[town_name] >= 1)
+        if(names_occ[town_name] >= 2)
             N.insert(*town_it);
     }
 }
 
-void build_C(set<Town, Coor_comparison>& C, const vector<Town>& town,
+void build_C(set<Town>& C, const vector<Town>& town,
              map<Point2D, int> coor_occ){
     Point2D town_coor;
     for(auto town_it = town.begin(); town_it != town.end(); town_it++){
         town_coor = town_it->point();
-        if(coor_occ[town_coor] >= 1)
+        if(coor_occ[town_coor] >= 2)
             C.insert(*town_it);
     }
 }
-
-
 
 
 int main()
@@ -144,13 +143,17 @@ int main()
     // ---Question 3
     cout<<"Question 3"<<endl;
     // Construction de N
-    set<Town, Name_comparison> N;
+    set<Town> N;
     build_N(N, towns, names_occ);
+    cout<<"N size : "<<N.size()<<endl;
     // Construction de C
-    set<Town, Coor_comparison> C;
+    set<Town> C;
     build_C(C, towns, coor_occ);
+    cout<<"C size : "<<C.size()<<endl;
     //Intersection
-
+    set<Town> intersection;
+    set_intersection(N.begin(), N.end(), C.begin(), C.end(), inserter(intersection, intersection.begin()));
+    cout<<"intersection N^C size : "<<intersection.size()<<endl;
     //Question 4
 
     return 0;
